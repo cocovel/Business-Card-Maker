@@ -1,16 +1,13 @@
-import React from 'react';
-import './app.css';
+import React from "react";
+import styles from "./app.module.css";
+import "./app.module.css";
+import Login from "./components/login/login";
 
-function App() {
-  const name = undefined;
+function App({ authService }) {
   return (
-    <>
-      <h1>Hello :)</h1>
-      {name && <h1>Hello! {name}:)</h1>}
-    {['💚', '🍎'].map(item => (
-    <h1>{item}</h1>
-    ))}
-    </>
+    <div class={styles.app}>
+      <Login authService={authService} />
+    </div>
   );
 }
 

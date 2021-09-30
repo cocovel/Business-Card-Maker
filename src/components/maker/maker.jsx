@@ -7,8 +7,8 @@ import Preview from "../preview/preview";
 import styles from "./maker.module.css";
 
 const Maker = ({ authService }) => {
-  const [cards, setCards] = useState([
-    {
+  const [cards, setCards] = useState({
+    "1": {
       id: "1",
       name: "Jueun",
       company: "The German Marshall Fund of the U.S.",
@@ -19,7 +19,7 @@ const Maker = ({ authService }) => {
       fileName: "jueun",
       fileURL: null
     },
-    {
+    "2": {
       id: "2",
       name: "Krystal",
       company: "SM Entertainment",
@@ -30,7 +30,7 @@ const Maker = ({ authService }) => {
       fileName: "Krystal",
       fileURL: "Krystal.png"
     },
-    {
+    3: {
       id: "3",
       name: "V",
       company: "BigHit Entertainment",
@@ -41,7 +41,8 @@ const Maker = ({ authService }) => {
       fileName: "V",
       fileURL: null
     }
-  ]);
+  });
+
   const history = useHistory();
   const onLogout = () => {
     authService.logout();
@@ -60,11 +61,26 @@ const Maker = ({ authService }) => {
     setCards(updated);
   };
 
+  const updateCard = card => {
+    const updated = { ...cards };
+    updated[card.id] = card;
+    setCards(updated);
+  };
+
+  const deleteCard = card => {
+    console.log(card);
+  };
+
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor cards={cards} addCard={addCard} />
+        <Editor
+          cards={cards}
+          addCard={addCard}
+          updateCard={updateCard}
+          deleteCard={deleteCard}
+        />
         <Preview cards={cards} />
       </div>
       <Footer />

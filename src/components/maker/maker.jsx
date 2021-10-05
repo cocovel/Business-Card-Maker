@@ -8,7 +8,7 @@ import styles from "./maker.module.css";
 
 const Maker = ({ authService }) => {
   const [cards, setCards] = useState({
-    "1": {
+    1: {
       id: "1",
       name: "Jueun",
       company: "The German Marshall Fund of the U.S.",
@@ -19,7 +19,7 @@ const Maker = ({ authService }) => {
       fileName: "jueun",
       fileURL: null
     },
-    "2": {
+    2: {
       id: "2",
       name: "Krystal",
       company: "SM Entertainment",
@@ -56,19 +56,20 @@ const Maker = ({ authService }) => {
     });
   });
 
-  const addCard = card => {
-    const updated = [...cards, card];
-    setCards(updated);
-  };
-
-  const updateCard = card => {
-    const updated = { ...cards };
-    updated[card.id] = card;
-    setCards(updated);
+  const createOrUpdateCard = card => {
+    setCards(cards => {
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
   };
 
   const deleteCard = card => {
-    console.log(card);
+    setCards(cards => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
   };
 
   return (
@@ -77,8 +78,8 @@ const Maker = ({ authService }) => {
       <div className={styles.container}>
         <Editor
           cards={cards}
-          addCard={addCard}
-          updateCard={updateCard}
+          addCard={createOrUpdateCard}
+          updateCard={createOrUpdateCard}
           deleteCard={deleteCard}
         />
         <Preview cards={cards} />

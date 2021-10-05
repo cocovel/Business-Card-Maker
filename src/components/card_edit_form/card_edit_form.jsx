@@ -3,7 +3,7 @@ import styles from "./card_edit_form.module.css";
 import Button from "../button/button";
 import ImageFileInput from "../image_file_input/image_file_input";
 
-const CardEditForm = ({ card }) => {
+const CardEditForm = ({ card, updateCard, deleteCard }) => {
   const nameRef = useRef();
   const companyRef = useRef();
   const themeRef = useRef();
@@ -21,7 +21,22 @@ const CardEditForm = ({ card }) => {
     fileName,
     fileURL
   } = card;
-  const onSubmit = () => {};
+
+  const onChange = event => {
+    if (event.currentTarget == null) {
+      return;
+    }
+
+    event.preventDefault();
+    updateCard({
+      ...card,
+      [event.currentTarget.name]: event.currentTarget.value
+    });
+  };
+
+  const onSubmit = () => {
+    deleteCard(card);
+  };
   return (
     <form className={styles.form}>
       <input
@@ -30,6 +45,7 @@ const CardEditForm = ({ card }) => {
         name="name"
         ref={nameRef}
         value={name}
+        onChange={onChange}
       />
       <input
         className={styles.input}
@@ -37,12 +53,14 @@ const CardEditForm = ({ card }) => {
         name="company"
         ref={companyRef}
         value={company}
+        onChange={onChange}
       />
       <select
         className={styles.select}
         name="theme"
         ref={themeRef}
         value={theme}
+        onChange={onChange}
       >
         <option value="light">light</option>
         <option value="dark">dark</option>
@@ -54,6 +72,7 @@ const CardEditForm = ({ card }) => {
         name="title"
         ref={titleRef}
         value={title}
+        onChange={onChange}
       />
       <input
         className={styles.input}
@@ -61,12 +80,14 @@ const CardEditForm = ({ card }) => {
         name="email"
         ref={emailRef}
         value={email}
+        onChange={onChange}
       />
       <textarea
         className={styles.textarea}
         name="message"
         ref={messageRef}
         value={message}
+        onChange={onChange}
       />
       <div className={styles.fileInput}>
         <ImageFileInput />
